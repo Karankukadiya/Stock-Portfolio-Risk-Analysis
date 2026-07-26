@@ -1,0 +1,6 @@
+channel,variant_a_cvr,variant_b_cvr,p_value,significant_at_95,winner
+Email,0.1176,0.1107,0.0225,TRUE,A
+Facebook,0.045,0.0515,0.0114,TRUE,B
+Google Search,0.0888,0.0852,0.2226,FALSE,No significant difference
+Instagram,0.03,0.0389,1e-4,TRUE,B
+TikTok,0.0245,0.0406,0,TRUE,B
