@@ -1,38 +1,15 @@
-# ============================================================
-# 01_generate_data.R
-# ------------------------------------------------------------
-# Purpose: Simulate a realistic marketing A/B test dataset.
-#
-# In a real job, this data would come from your ad platforms
-# (Meta Ads Manager, Google Ads, TikTok Ads, email service
-# provider) via their APIs or exported reports, then combined
-# into one table. Since this is a portfolio project without
-# access to a live ad account, this script SIMULATES that export
-# — including realistic messiness (inconsistent naming, missing
-# values, bad rows, duplicates) so the cleaning script has real
-# problems to solve, just like a real export would.
-#
-# Scenario: An e-commerce company is running Variant A (original
-# ad creative) vs Variant B (new ad creative) across 5 channels,
-# over a 90-day period (Jan 1 - Mar 30, 2024).
-# ============================================================
-
 library(dplyr)
 library(purrr)
 
 set.seed(42)
 
+# basic setup
 channels  <- c("Facebook", "Google Search", "Instagram", "Email", "TikTok")
 variants  <- c("A", "B")
 start_date <- as.Date("2024-01-01")
 n_days <- 90
 
-# Baseline performance assumptions per channel x variant.
-# These control the "story" the data will tell:
-#   - Facebook & Instagram: Variant B (new creative) wins
-#   - Google Search: Variant A (original) wins narrowly
-#   - Email: statistical tie
-#   - TikTok: Variant B wins clearly, and the channel grows over time
+# Performance assumptions for each channel and variant
 profiles <- tribble(
   ~channel,        ~variant, ~impr, ~ctr,   ~cvr,   ~cpm,
   "Facebook",       "A",     8000,  0.018,  0.045,  6.5,
@@ -73,7 +50,7 @@ simulate_day <- function(d) {
 
 clean_truth <- map_dfr(0:(n_days - 1), simulate_day)
 
-# ---- Inject realistic real-world messiness for the RAW export ----
+# Add some inconsistencies to mimic a raw export
 channel_aliases <- list(
   "Facebook"      = c("Facebook", "facebook", "FB"),
   "Google Search" = c("Google Search", "google search", "Google"),
